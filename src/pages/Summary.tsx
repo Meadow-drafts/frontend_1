@@ -1,16 +1,38 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import PlansContext from "../context/PlansContext";
-import AddOnsContext from "../context/AddOnsContext";
+import {PlansContext} from "../context/PlansContext";
+import {AddOnsContext} from "../context/AddOnsContext";
 
-const Summary = () => {
+const Summary: React.FC = () => {
   const navigate = useNavigate();
-  const { selectedMonthlyPlan } = useContext(PlansContext);
-  const { selectedYearlyPlan } = useContext(PlansContext);
-  let { selectedAddOnsValue, setSelectedAddOnsValue } =
-    useContext(AddOnsContext);
 
+
+  const addOnsContext = useContext(AddOnsContext);
+
+  const plansContext = useContext(PlansContext);
+
+
+  if (!addOnsContext) {
+    console.error("PlansContext is undefined");
+    return null; 
+  }
+  const { selectedAddOnsValue, setSelectedAddOnsValue } = addOnsContext;
+
+
+  if (!plansContext) {
+    console.error("PlansContext is undefined");
+    return null; 
+  }
+  const {
+   selectedMonthlyPlan,
+    selectedYearlyPlan,
+  } = plansContext;
+  
+ 
   console.log(selectedAddOnsValue);
+
+
+
   return (
     <div className="sm:basis-[60%] w-[300px] sm:w-[100%] h-[100%] sm:pr-[80px] text-center">
       <h1 className="mt-10 text-3xl font-[800] mb-2 text-primary-marineBlue">

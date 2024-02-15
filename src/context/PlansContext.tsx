@@ -29,7 +29,7 @@ interface PlansContextProps {
 
 export const PlansContext = createContext<PlansContextProps | undefined>(undefined);
 
-interface PlansProviderProps {
+export interface PlansProviderProps {
   children: ReactNode;
 }
 
