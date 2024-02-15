@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PersonalInfo from "./pages/PersonalInfo";
 import SelectPlan from "./pages/SelectPlan";
@@ -9,7 +10,7 @@ import { PlansProvider } from "./context/PlansContext";
 import { AddOnsProvider } from "./context/AddOnsContext";
 import ThankYou from "./pages/ThankYou";
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <PlansProvider>
       <AddOnsProvider>
