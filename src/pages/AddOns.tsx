@@ -1,33 +1,30 @@
-import React, { useState, useContext, ChangeEvent } from "react";
+import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { AddOnsContext } from "../context/AddOnsContext";
+import useAddOnsStore from "../store/addOnsStore";
 
 const AddOns: React.FC = () => {
   const navigate = useNavigate();
-  const addOnsContext = useContext(AddOnsContext);
 
+  const {addOns, selectedAddOn, setSelectedAddOn} = useAddOnsStore();
 
-  if (!addOnsContext) {
-    console.error("PlansContext is undefined");
-    return null; // or handle it in some way
-  }
-  const { addOns, setAddOns, selectedAddOnsValue, setSelectedAddOnsValue } = addOnsContext;
+  const [addOnId, setAddOnId] = useState(0);  
 
-  const [num, setNum] = useState(0);
+  const handlePlanSelect = (item: Addon) => {
+    console.log(item)
+    setAddOnId(item.id);
+    setSelectedAddOn(item);
+    console.log({selectedAddOn})
+   
+    console.log({addOnId})
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     navigate("/summary");
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>, id: number) => {
-    if (e.target.checked) {
-      setSelectedAddOnsValue((prev) => [...prev, addOns[id]]);
-    } else {
-      setSelectedAddOnsValue((prev) => prev.filter((item) => item.id !== id));
-    }
-    setNum(id + 1);
-  };
+ 
+
 
   return (
     <div className="sm:basis-[60%] w-[300px] sm:w-[100%] h-[100%] sm:pr-[80px]">
@@ -41,14 +38,14 @@ const AddOns: React.FC = () => {
         onSubmit={handleSubmit}
         className="flex flex-col relative space-y-4"
       >
-        {addOns.map((item, idx) => {
+        {addOns?.map((item) => {
           return (
             <div
               key={item.id}
               className={`${
-                num !== idx + 1 ? "bg-white" : "bg-primary-lightBlue"
+                addOnId !== item.id? "bg-white" : "bg-primary-lightBlue"
               } border-2 ${
-                num !== idx + 1
+                addOnId !== item.id
                   ? "border-neutral-lightGray"
                   : "border-primary-purplishBlue"
               } rounded-md flex items-center justify-between p-4 cursor-pointer transition-all duration-300 hover:border-primary-purplishBlue`}
@@ -57,7 +54,7 @@ const AddOns: React.FC = () => {
                 <div>
                   <input
                     className="h-5 w-5 cursor-pointer"
-                    onChange={(e) => handleChange(e, idx)}
+                    onChange={() => handlePlanSelect(item)}
                     type="checkbox"
                     value={item.value}
                   />

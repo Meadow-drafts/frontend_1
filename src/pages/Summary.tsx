@@ -1,39 +1,30 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import {PlansContext} from "../context/PlansContext";
-import {AddOnsContext} from "../context/AddOnsContext";
 import usePlansStore from "../store/planStore";
+import useAddOnsStore from "../store/addOnsStore";
 
 const Summary: React.FC = () => {
   const navigate = useNavigate();
 
 
-  const addOnsContext = useContext(AddOnsContext);
 
-  const plansContext = useContext(PlansContext);
+  const {selectedAddOn} = useAddOnsStore()
 
-  const { selectedPlan, setSelectedPlan } = usePlansStore();
+  const { selectedPlan } = usePlansStore();
 
 
-  if (!addOnsContext) {
-    console.error("PlansContext is undefined");
+  if (!selectedAddOn) {
+    console.error("No add on selected");
     return null; 
   }
-  const { selectedAddOnsValue, setSelectedAddOnsValue } = addOnsContext;
 
 
-  if (!plansContext) {
-    console.error("PlansContext is undefined");
+  if (!selectedPlan) {
+    console.error("No plan selected");
     return null; 
   }
-  const {
-   selectedMonthlyPlan,
-    selectedYearlyPlan,
-  } = plansContext;
-  
- 
-  console.log(selectedAddOnsValue);
 
+ const totalPrice = selectedAddOn.price + selectedPlan.price;
 
 
   return (
@@ -78,28 +69,23 @@ const Summary: React.FC = () => {
         </div>
 
         <hr />
-
-        {selectedAddOnsValue.map((item) => {
-          return (
-            <div key={item.id} className="plan flex justify-between items-center mt-4">
+          <div key={selectedAddOn?.id} className="plan flex justify-between items-center mt-4">
               <div>
-                <p className="text-neutral-coolGray">{item.value}</p>
+                <p className="text-neutral-coolGray">{selectedAddOn?.value}</p>
               </div>
               <div>
                 <p className="text-primary-marineBlue mb-2 text-[14px] font-[500]">
-                  +${item.price}/mo
+                  +${selectedAddOn?.price}/mo
                 </p>
               </div>
             </div>
-          );
-        })}
       </div>
 
       <div className="flex justify-between p-5">
         <div>
-          <p className="text-neutral-coolGray">Total (per month)</p>
+          <p className="text-neutral-coolGray">Total </p>
         </div>
-        <div className="text-primary-purplishBlue font-[800]">+$??/mo</div>
+        <div className="text-primary-purplishBlue font-[800]">+${totalPrice}</div>
       </div>
 
       <div className="flex justify-around sm:justify-between items-center pt-[260px] sm:pt-[79px]">

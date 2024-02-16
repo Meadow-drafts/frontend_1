@@ -4,8 +4,6 @@ import usePlansStore from "../store/planStore";
 
 const SelectPlan: React.FC = () => {
   const navigate = useNavigate();
-  const plansStore = usePlansStore();
-  const [num, setNum] = useState(0)
   const [planId, setPlanId] = useState(0)
   const [toggleYearly, setToggleYearly] = useState(false);
   const { monthlyPlans, yearlyPlans, isYearlySelected, selectedPlan, setSelectedPlan } = usePlansStore();
@@ -17,13 +15,9 @@ const SelectPlan: React.FC = () => {
 
   const handlePlanSelect = (item: Plan) => {
     console.log(item)
-    setNum(item.id + 1);
     setSelectedPlan(item);
     setPlanId(item.id)
     console.log({planId})
-
-   
-    console.log({num})
   };
 
 
@@ -37,8 +31,6 @@ const SelectPlan: React.FC = () => {
       alert("Please choose a plan");
     }
   };
-
-
 
 
   return (
@@ -79,7 +71,6 @@ const SelectPlan: React.FC = () => {
             );
           })}
         </div>
-
         <div
            className={`${
             toggleYearly ? "block" : "hidden"
@@ -111,10 +102,7 @@ const SelectPlan: React.FC = () => {
               </div>
             );
           })}
-        </div>
-
-       
-
+        </div>     
         <div
           className={`bg-neutral-alabaster flex justify-center items-center py-3 space-x-8 rounded-md ${
             isYearlySelected ? "mb-[70px]" : "mb-[77px]"
