@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {PlansContext} from "../context/PlansContext";
 import {AddOnsContext} from "../context/AddOnsContext";
+import usePlansStore from "../store/planStore";
 
 const Summary: React.FC = () => {
   const navigate = useNavigate();
@@ -10,6 +11,8 @@ const Summary: React.FC = () => {
   const addOnsContext = useContext(AddOnsContext);
 
   const plansContext = useContext(PlansContext);
+
+  const { selectedPlan, setSelectedPlan } = usePlansStore();
 
 
   if (!addOnsContext) {
@@ -48,19 +51,14 @@ const Summary: React.FC = () => {
         <div className="plan flex justify-between items-center mb-4">
           <div>
             <span className="text-primary-marineBlue font-[800]">
-              {selectedMonthlyPlan.title} {selectedYearlyPlan.title}
+              {selectedPlan?.title} 
             </span>
-            {selectedMonthlyPlan.title ? (
               <span className="text-primary-marineBlue font-[800]">
                 {" "}
-                (Monthly)
+                
+                {selectedPlan?.id <=3 ? "(Monthly)" : "Yearly"}
               </span>
-            ) : (
-              <span className="text-primary-marineBlue font-[800]">
-                {" "}
-                (Yearly)
-              </span>
-            )}
+            
             <p
               onClick={() => navigate("/selectplan")}
               className="text-neutral-coolGray underline cursor-pointer"
@@ -70,13 +68,12 @@ const Summary: React.FC = () => {
           </div>
           <div>
             <span className="text-primary-marineBlue font-[800]">
-              ${selectedMonthlyPlan.price} {selectedYearlyPlan.price}
-            </span>
-            {selectedMonthlyPlan.price ? (
-              <span className="text-primary-marineBlue font-[800]">/mo</span>
-            ) : (
-              <span className="text-primary-marineBlue font-[800]">/yr</span>
-            )}
+              ${selectedPlan?.price}
+            </span>            
+              <span className="text-primary-marineBlue font-[800]">/
+                 {selectedPlan?.id <=3 ? "(Monthly)" : "Yearly"}
+              </span>
+           
           </div>
         </div>
 

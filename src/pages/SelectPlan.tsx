@@ -1,52 +1,43 @@
-import React, { useState, useContext, FormEvent } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PlansContext } from "../context/PlansContext";
+import usePlansStore from "../store/planStore";
 
 const SelectPlan: React.FC = () => {
   const navigate = useNavigate();
-  const [toggleYearly, setToggleYearly] = useState<boolean>(false);
-  const [num, setNum] = useState<number>(0);
+  const plansStore = usePlansStore();
+  const [num, setNum] = useState(0)
+  const [planId, setPlanId] = useState(0)
+  const [toggleYearly, setToggleYearly] = useState(false);
+  const { monthlyPlans, yearlyPlans, isYearlySelected, selectedPlan, setSelectedPlan } = usePlansStore();
 
-  const plansContext = useContext(PlansContext);
-
-  if (!plansContext) {
-    console.error("PlansContext is undefined");
-    return null; // or handle it in some way
-  }
-
-  const {
-    monthlyPlans,
-    yearlyPlans,
-    selectedMonthlyPlan,
-    selectedYearlyPlan,
-  } = plansContext;
 
   const handleToggleYearly = () => {
     setToggleYearly((prev) => !prev);
   };
 
-  const getMonthlyDetails = (id: number) => {
-    selectedMonthlyPlan.title = monthlyPlans[id].title;
-    selectedMonthlyPlan.price = monthlyPlans[id].price;
+  const handlePlanSelect = (item: Plan) => {
+    console.log(item)
+    setNum(item.id + 1);
+    setSelectedPlan(item);
+    setPlanId(item.id)
+    console.log({planId})
 
-    setNum(id + 1);
+   
+    console.log({num})
   };
 
-  const getYearlyDetails = (id: number) => {
-    selectedYearlyPlan.title = yearlyPlans[id].title;
-    selectedYearlyPlan.price = yearlyPlans[id].price;
 
-    setNum(id + 1);
-  };
-
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    if (selectedMonthlyPlan.title !== "" || selectedYearlyPlan.title !== "") {
+
+    console.log({selectedPlan})
+    if (selectedPlan?.title !== "") {
       navigate("/addons");
     } else {
       alert("Please choose a plan");
     }
   };
+
 
 
 
@@ -59,24 +50,24 @@ const SelectPlan: React.FC = () => {
         You have the option of monthly or yearly billing.
       </p>
       <form onSubmit={handleSubmit} className="flex flex-col relative">
+
+        
         <div
-          className={`${
-            toggleYearly ? "hidden" : "block"
-          } plansMonthly mb-8 flex flex-col sm:flex-row justify-between cursor-pointer`}
-        >
-          {monthlyPlans.map((item, idx) => {
+        className={`${
+          toggleYearly ? "hidden" : "block"
+        } plansMonthly mb-8 flex flex-col sm:flex-row justify-between cursor-pointer`}>
+          {monthlyPlans.map((item) => {
             return (
               <div
-                onClick={() => getMonthlyDetails(idx)}
+                onClick={() => handlePlanSelect(item)}
                 key={item.id}
                 className={`plan ${
-                  num != idx + 1 ? "bg-white" : "bg-primary-lightBlue"
+                  planId != item.id? "bg-white" : "bg-primary-lightBlue"
                 } border-2 ${
-                  num != idx + 1
-                    ? "border-neutral-lightGray"
+                  planId != item.id                    ? "border-neutral-lightGray"
                     : "border-primary-purplishBlue"
-                } rounded-md p-4 flex items-center justify-around mb-4 sm:mb-0 sm:block basis-[31%] transition-all duration-300 hover:border-primary-purplishBlue`}
-              >
+                } rounded-md p-4 flex items-center justify-around mb-4 sm:mb-0 sm:block sm:basis-[31%] transition-all duration-300 hover:border-primary-purplishBlue`}
+             >
                 <img className="sm:mb-10" src={item.img} alt="plan image" />
                 <h4 className="text-primary-marineBlue font-[500]">
                   {item.title}
@@ -90,19 +81,19 @@ const SelectPlan: React.FC = () => {
         </div>
 
         <div
-          className={`${
+           className={`${
             toggleYearly ? "block" : "hidden"
           } plansYearly mb-8 flex flex-col sm:flex-row justify-between cursor-pointer`}
-        >
-          {yearlyPlans.map((item, idx) => {
+          >
+          {yearlyPlans.map((item) => {
             return (
               <div
-                onClick={() => getYearlyDetails(idx)}
+                onClick={() => handlePlanSelect(item)}
                 key={item.id}
                 className={`plan ${
-                  num != idx + 1 ? "bg-white" : "bg-primary-lightBlue"
+                  planId != item.id? "bg-white" : "bg-primary-lightBlue"
                 } border-2 ${
-                  num != idx + 1
+                  planId != item.id  
                     ? "border-neutral-lightGray"
                     : "border-primary-purplishBlue"
                 } rounded-md p-4 flex items-center justify-around mb-4 sm:mb-0 sm:block sm:basis-[31%] transition-all duration-300 hover:border-primary-purplishBlue`}
@@ -112,7 +103,7 @@ const SelectPlan: React.FC = () => {
                   {item.title}
                 </h4>
                 <p className="text-neutral-coolGray text-[14px] font-[500]">
-                  ${item.price}/mo
+                  ${item.price}/yr
                 </p>
                 <p className="text-primary-marineBlue text-[12px]">
                   {item.extra}
@@ -122,16 +113,18 @@ const SelectPlan: React.FC = () => {
           })}
         </div>
 
+       
+
         <div
           className={`bg-neutral-alabaster flex justify-center items-center py-3 space-x-8 rounded-md ${
-            toggleYearly ? "mb-[70px]" : "mb-[77px]"
+            isYearlySelected ? "mb-[70px]" : "mb-[77px]"
           } ${
-            toggleYearly ? "sm:mb-[79px]" : "sm:mb-[97px]"
+            isYearlySelected ? "sm:mb-[79px]" : "sm:mb-[97px]"
           }`}
         >
           <p
             className={`${
-              toggleYearly ? "text-neutral-coolGray" : "text-primary-marineBlue"
+              isYearlySelected ? "text-neutral-coolGray" : "text-primary-marineBlue"
             } text-[14px] font-[500]`}
           >
             Monthly
@@ -145,7 +138,7 @@ const SelectPlan: React.FC = () => {
           </label>
           <p
             className={`${
-              toggleYearly
+              isYearlySelected
                 ? "text-primary-marineBlue"
                 : "text-neutral-coolGray "
             } text-[14px] font-[500]`}
