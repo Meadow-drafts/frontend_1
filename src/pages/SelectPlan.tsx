@@ -21,11 +21,10 @@ const SelectPlan: React.FC = () => {
   };
 
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = (event: React.FormEvent) => {    event.preventDefault();
 
     console.log({selectedPlan})
-    if (selectedPlan?.title !== "") {
+    if (selectedPlan) {
       navigate("/addons");
     } else {
       alert("Please choose a plan");

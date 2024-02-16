@@ -20,7 +20,13 @@ const AddOns: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/summary");
+
+    console.log({selectedAddOn})
+    if (selectedAddOn) {
+      navigate("/summary");
+    } else {
+      alert("Please select an Add on");
+    }
   };
 
  
