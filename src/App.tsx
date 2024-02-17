@@ -6,14 +6,10 @@ import AddOns from "./pages/AddOns";
 import Summary from "./pages/Summary";
 import NotFound from "./pages/NotFound";
 import Sidebar from "./components/Sidebar";
-import { PlansProvider } from "./context/PlansContext";
-import { AddOnsProvider } from "./context/AddOnsContext";
 import ThankYou from "./pages/ThankYou";
 
 const App: React.FC = () => {
   return (
-    <PlansProvider>
-      <AddOnsProvider>
         <BrowserRouter>
           <div className="bg-white sm:w-[60rem] h-[35rem] mt-[100px] sm:mt-0 rounded-xl shadow-xl p-4 flex flex-col sm:flex sm:flex-row justify-between">
             <Sidebar />
@@ -27,8 +23,6 @@ const App: React.FC = () => {
             </Routes>
           </div>
         </BrowserRouter>
-      </AddOnsProvider>
-    </PlansProvider>
   );
 };
 

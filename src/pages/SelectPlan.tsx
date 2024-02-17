@@ -13,7 +13,7 @@ const SelectPlan: React.FC = () => {
     setToggleYearly((prev) => !prev);
   };
 
-  const handlePlanSelect = (item: Plan) => {
+  const handlePlanSelect = (item: any) => {
     console.log(item)
     setSelectedPlan(item);
     setPlanId(item.id)

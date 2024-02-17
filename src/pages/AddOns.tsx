@@ -9,7 +9,7 @@ const AddOns: React.FC = () => {
 
   const [addOnId, setAddOnId] = useState(0);  
 
-  const handlePlanSelect = (item: Addon) => {
+  const handleAddOnSelect = (item: any) => {
     console.log(item)
     setAddOnId(item.id);
     setSelectedAddOn(item);
@@ -60,7 +60,7 @@ const AddOns: React.FC = () => {
                 <div>
                   <input
                     className="h-5 w-5 cursor-pointer"
-                    onChange={() => handlePlanSelect(item)}
+                    onChange={() => handleAddOnSelect(item)}
                     type="checkbox"
                     value={item.value}
                   />
