@@ -33,7 +33,7 @@ const AddOns: React.FC = () => {
 
 
   return (
-    <div className="sm:basis-[60%] w-[300px] sm:w-[100%] h-[100%] sm:pr-[80px]">
+    <div className="">
       <h1 className="mt-10 text-3xl font-[800] mb-2 text-primary-marineBlue">
         Pick add-ons
       </h1>

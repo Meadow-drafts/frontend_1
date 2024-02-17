@@ -33,7 +33,7 @@ const SelectPlan: React.FC = () => {
 
 
   return (
-    <div className="sm:basis-[60%] w-[300px] sm:w-[100%] h-[100%] sm:pr-[80px]">
+    <div className="">
       <h1 className="mt-10 text-3xl font-[800] mb-2 text-primary-marineBlue">
         Select your Plan
       </h1>
@@ -60,6 +60,7 @@ const SelectPlan: React.FC = () => {
                 } rounded-md p-4 flex items-center justify-around mb-4 sm:mb-0 sm:block sm:basis-[31%] transition-all duration-300 hover:border-primary-purplishBlue`}
              >
                 <img className="sm:mb-10" src={item.img} alt="plan image" />
+                {/* {item.img && <item.img/>} */}
                 <h4 className="text-primary-marineBlue font-[500]">
                   {item.title}
                 </h4>

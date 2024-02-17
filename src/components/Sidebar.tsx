@@ -4,15 +4,19 @@ import { data } from "../constants/data";
 
 const Sidebar: React.FC  = () => {
   return (
-    <aside className="absolute top-0 left-0 right-[100%] sm:relative bg-mobile sm:bg-desktop sm:bg-cover bg-no-repeat w-[100%] h-[100%] pt-8 sm:pl-8 sm:basis-[30%] sm:rounded-lg flex items-start justify-center sm:flex-col sm:justify-start">
+    <aside className="absolute top-0 left-0 h-[35%] md:h-full md:relative bg-mobile md:bg-desktop bg-cover bg-no-repeat pt-8 rounded-lg flex md:flex-col flex-row justify-center items-center md:justify-start md:items-start pl-8 basis-[30%] md:w-auto w-[100%]">
+    {/* <aside className="absolute top-0 left-0 right-[100%] sm:relative bg-mobile sm:bg-desktop sm:bg-cover bg-no-repeat w-[100%] h-[100%] pt-8 sm:pl-8 sm:basis-[30%] sm:rounded-lg flex items-start justify-center sm:flex-col sm:justify-start"> */}
+
+
       {data.map((item, idx) => {
         return (
           <div
             key={idx}
             className="flex items-center space-x-4 leading-4 sm:mb-10"
           >
-            <NavLink
-              style={({ isActive }) => ({
+            <NavLink 
+              className=""
+                style={({ isActive }) => ({
                 color: isActive ? "#000" : "hsl(229, 24%, 87%)",
                 background: isActive ? "hsl(228, 100%, 84%)" : "transparent",
                 border: isActive ? "none" : "2px solid hsl(229, 24%, 87%)",

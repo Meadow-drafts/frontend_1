@@ -35,7 +35,7 @@ const initialState: AddOnStore ={
         },
       ],
     selectedAddOn: null,
-    setSelectedAddOn: (addon) =>(initialState.selectedAddOn = addon)
+    setSelectedAddOn: (addon: any) =>(initialState.selectedAddOn = addon)
 }
 
 const useAddOnsStore = create<AddOnStore>((set) => initialState);

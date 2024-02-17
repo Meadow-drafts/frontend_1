@@ -7,7 +7,7 @@ interface Plan {
   id: number;
   title: string;
   price: number;
-  img?: string; // Optional image path
+  img?: string;
   extra?: string; // Optional additional info
 }
 
